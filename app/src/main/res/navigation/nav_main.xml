@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.jadhavrupesh.techstalwarts.presentation.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/homeFragment_to_foodDetailsActivity"
+            app:destination="@id/foodDetailsActivity" />
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.jadhavrupesh.techstalwarts.presentation.ui.cart.CartFragment"
@@ -20,4 +24,23 @@
         android:name="com.jadhavrupesh.techstalwarts.presentation.ui.favourite.FavouriteFragment"
         android:label="FavouriteFragment"
         tools:layout="@layout/fragment_favourite" />
+    <fragment
+        android:id="@+id/foodDetailFragment"
+        android:name="com.jadhavrupesh.techstalwarts.presentation.ui.foodDetails.FoodDetailFragment"
+        android:label="fragment_food_detail"
+        tools:layout="@layout/fragment_food_detail" />
+    <activity
+        android:id="@+id/foodDetailsActivity"
+        android:name="com.jadhavrupesh.techstalwarts.presentation.ui.foodDetails.FoodDetailsActivity"
+        android:label="FoodDetailsActivity"
+        tools:layout="@layout/activity_food_details">
+        <argument
+            android:name="food_id"
+            app:argType="float" />
+    </activity>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.jadhavrupesh.techstalwarts.MainActivity"
+        android:label="MainActivity"
+        tools:layout="@layout/activity_main" />
 </navigation>

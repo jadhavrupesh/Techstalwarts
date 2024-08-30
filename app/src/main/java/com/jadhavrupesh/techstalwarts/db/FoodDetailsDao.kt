@@ -25,4 +25,7 @@ interface FoodDetailsDao {
 
     @Query("SELECT * FROM food")
     suspend fun getAllFoodDetails(): List<FoodDetailsEntity>
+
+    @Query("DELETE FROM food")
+    suspend fun deleteAllFoodDetails()
 }

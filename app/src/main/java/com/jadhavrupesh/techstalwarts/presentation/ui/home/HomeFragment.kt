@@ -1,10 +1,12 @@
 package com.jadhavrupesh.techstalwarts.presentation.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -15,6 +17,7 @@ import com.jadhavrupesh.techstalwarts.databinding.FragmentFavouriteBinding
 import com.jadhavrupesh.techstalwarts.databinding.FragmentHomeBinding
 import com.jadhavrupesh.techstalwarts.model.FoodDetailsEntity
 import com.jadhavrupesh.techstalwarts.presentation.ui.favourite.FavouriteViewModel
+import com.jadhavrupesh.techstalwarts.presentation.ui.foodDetails.FoodDetailsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,15 +34,12 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("onCreate called in HomeFragment")
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        println("onCreateView called in HomeFragment")
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,17 +47,21 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("onViewCreated called in HomeFragment")
         navController = findNavController()
         setupRecyclerView()
         viewModel.foodListLiveData.observe(viewLifecycleOwner) { result ->
-            println("onViewCreated called in HomeFragment foodListLiveData = ${result}")
             adapter.items = result.toMutableList()
             adapter.notifyItemChanged(0)
         }
-
-
         adapter.notifyItemChanged(0)
+
+        adapter.onPostClick = { item ->
+            val intent = Intent(
+                requireContext(), FoodDetailsActivity::class.java
+            )
+            intent.putExtra(FOOD_DETAILS_ID, item.id)
+            startActivity(intent)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -65,6 +69,6 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-
+        const val FOOD_DETAILS_ID = "food_details_id"
     }
 }

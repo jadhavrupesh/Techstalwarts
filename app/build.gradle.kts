@@ -73,6 +73,10 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
 
     implementation (libs.glide)
+    implementation("com.github.travijuu:numberpicker:1.0.7")
+//    implementation 'com.cepheuen.elegant-number-button:lib:1.0.3'
+
+
 
 
 }

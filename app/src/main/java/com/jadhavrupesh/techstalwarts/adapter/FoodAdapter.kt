@@ -28,8 +28,6 @@ class FoodAdapter @Inject constructor() : RecyclerView.Adapter<FoodAdapter.ViewH
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = items[holder.adapterPosition]
-        println("onBindViewHolder called in FoodAdapter currentData = $currentItem")
-
         holder.binding.tvDesc.text = currentItem.name
         holder.binding.tvTitle.text = currentItem.description
         Glide.with(holder.itemView.context).load(currentItem.imageUrl).into(holder.binding.ivImage)
@@ -39,7 +37,6 @@ class FoodAdapter @Inject constructor() : RecyclerView.Adapter<FoodAdapter.ViewH
     }
 
     override fun getItemCount(): Int {
-        println("getItemCount called in FoodAdapter ${items.size}")
         return items.size
     }
 

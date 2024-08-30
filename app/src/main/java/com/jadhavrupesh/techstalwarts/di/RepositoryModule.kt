@@ -1,5 +1,6 @@
 package com.jadhavrupesh.techstalwarts.di
 
+import com.jadhavrupesh.techstalwarts.db.CartDao
 import com.jadhavrupesh.techstalwarts.db.FoodDetailsDao
 import com.jadhavrupesh.techstalwarts.repository.FoodRepository
 import dagger.Module
@@ -15,9 +16,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideFoodRepository(
-        foodDetailsDao: FoodDetailsDao
+        foodDetailsDao: FoodDetailsDao,
+        cartDao: CartDao
     ): FoodRepository {
-        return FoodRepository(foodDetailsDao)
+        return FoodRepository(foodDetailsDao, cartDao)
     }
 
 }

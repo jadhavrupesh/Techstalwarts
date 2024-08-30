@@ -1,17 +1,18 @@
 package com.jadhavrupesh.techstalwarts.presentation.ui.cart
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.jadhavrupesh.techstalwarts.R
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.transition.Visibility
+import com.jadhavrupesh.techstalwarts.adapter.CartAdapter
 import com.jadhavrupesh.techstalwarts.databinding.FragmentCartBinding
-import com.jadhavrupesh.techstalwarts.databinding.FragmentFavouriteBinding
-import com.jadhavrupesh.techstalwarts.presentation.ui.favourite.FavouriteViewModel
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -19,11 +20,13 @@ class CartFragment : Fragment() {
 
     private lateinit var viewModel: CartViewModel
     private lateinit var binding: FragmentCartBinding
+    private lateinit var navController: NavController
 
+    @Inject
+    lateinit var adapter: CartAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("onCreate called in CartFragment")
         viewModel = ViewModelProvider(this)[CartViewModel::class.java]
     }
 
@@ -31,18 +34,36 @@ class CartFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        println("onCreateView called in CartFragment")
         binding = FragmentCartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("onViewCreated called in CartFragment")
+        navController = findNavController()
+        viewModel.getCartItem()
+        setupRecyclerView()
+        viewModel.cartListLiveData.observe(viewLifecycleOwner) { result ->
+            if (result.isEmpty()) {
+                binding.completeOrder.setVisibility(View.GONE)
+            } else {
+                binding.completeOrder.visibility = View.VISIBLE
+            }
+            adapter.items = result.toMutableList()
+            adapter.notifyItemChanged(0)
+        }
+        adapter.onUpdate = { item ->
+            viewModel.updateCount(item)
+        }
+
+
+        binding.completeOrder.setOnClickListener {
+            viewModel.clearCart()
+        }
 
     }
 
-    companion object {
+    private fun setupRecyclerView() {
+        binding.rvListView.adapter = adapter
     }
 }

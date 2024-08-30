@@ -25,9 +25,9 @@ class MainActivity : AppCompatActivity() {
 
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val navController = navHostFragment.navController
         binding.navBottom.setupWithNavController(navController)
-
 
     }
 }

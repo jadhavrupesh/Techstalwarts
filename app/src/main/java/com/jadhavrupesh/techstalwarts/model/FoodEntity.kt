@@ -24,7 +24,7 @@ data class FoodDetailsEntity(
     val deliveryTime: String,
     val deliveryInfo: String,
     val returnPolicy: String,
-    val isFavourite: Boolean = false,
-    val isBestSeller: Boolean = false,
-    val isPromo: Boolean = false
+    var isFavourite: Boolean = false,
+    var isBestSeller: Boolean = false,
+    var isPromo: Boolean = false
 ) : Parcelable
